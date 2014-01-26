@@ -3,10 +3,21 @@ fs.readFile('test.txt', 'utf8', function (err, data) {
   if (err) {
     console.log(err);
   }
-  console.log('number of words is', cword(data));
-  console.log('number of lines is', cline(data));
-  console.log('number of lines is', data.length);
-  console.log('number of bytes is', bytes(data));
+
+var program = require('commander');
+
+program
+  .version('0.0.1')
+  .option('-c, --bytes', 'Add bytes')
+  .option('-m, --chars', 'Add chars')
+  .option('-l, --lines', 'Add lines')
+  .option('-w, --words', 'Add words')
+  .parse(process.argv);
+
+if (program.words) console.log('number of words is' ,cword(data));
+if (program.chars) console.log('number of chars is' ,(data.length));
+if (program.lines) console.log('number of lines is' ,cline(data));
+if (program.bytes) console.log('number of bytes is' ,bytes(data));
 });
 
 function cword(w) {
@@ -30,7 +41,7 @@ function cline(l) {
   //console.log(lines);
 
   for (j = 0; j < lines.length; j++) {
-    if (lines[i] != '') {
+    if (lines[j] != '') {
       countl += 1;
     }
   }
