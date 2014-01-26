@@ -44,7 +44,7 @@ function bytes(b) {
     if (c < 128) {
       countB++;
     }
-    else if((c > 127) && (c < 2048)) {
+    else if (c > 127 && c < 2048) {
       countB = countB + 2;
     }
     else {
