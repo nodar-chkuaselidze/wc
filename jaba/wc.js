@@ -3,10 +3,10 @@ fs.readFile('test.txt', 'utf8', function (err, data) {
   if (err) {
     console.log(err);
   }
-  console.log('number of words is' ,cword(data));
-  console.log('number of lines is' ,cline(data));
-  console.log('number of lines is' ,(data.length));
-  console.log('number of bytes is' ,bytes(data));
+  console.log('number of words is', cword(data));
+  console.log('number of lines is', cline(data));
+  console.log('number of lines is', data.length);
+  console.log('number of bytes is', bytes(data));
 });
 
 function cword(w) {
@@ -45,15 +45,11 @@ function bytes(b) {
       countB++;
     }
     else if((c > 127) && (c < 2048)) {
-      countB = countB+2;
+      countB = countB + 2;
     }
     else {
-      countB = countB+3;
+      countB = countB + 3;
     }
   }
   return countB;
 }
-
-
-
-
