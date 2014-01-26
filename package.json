@@ -1,0 +1,19 @@
+{
+  "name": "wc",
+  "version": "0.0.0",
+  "description": "wc",
+  "main": "run.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/nodar-chkuaselidze/wc.git"
+  },
+  "author": "",
+  "license": "null",
+  "readmeFilename": "README.md"
+}
