@@ -15,5 +15,8 @@
   },
   "author": "",
   "license": "null",
-  "readmeFilename": "README.md"
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "commander": "~2.1.0"
+  }
 }
