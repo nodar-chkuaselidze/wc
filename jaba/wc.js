@@ -1,23 +1,24 @@
-var fs = require('fs');
-fs.readFile('test.txt', 'utf8', function (err, data) {
-  if (err) {
-    console.log(err);
-  }
-
-var program = require('commander');
+var fs = require('fs'),
+    program = require('commander');
 
 program
   .version('0.0.1')
+  .usage('[options] <file ...>')
   .option('-c, --bytes', 'Add bytes')
   .option('-m, --chars', 'Add chars')
   .option('-l, --lines', 'Add lines')
   .option('-w, --words', 'Add words')
   .parse(process.argv);
 
-if (program.words) console.log('number of words is' ,cword(data));
-if (program.chars) console.log('number of chars is' ,(data.length));
-if (program.lines) console.log('number of lines is' ,cline(data));
-if (program.bytes) console.log('number of bytes is' ,bytes(data));
+fs.readFile(program.args[0], 'utf8', function (err, data) {
+  if (err) {
+    console.log(err);
+  }
+
+  if (program.words) console.log(cword(data), program.args[0]);
+  if (program.chars) console.log(data.length, program.args[0]);
+  if (program.lines) console.log(cline(data), program.args[0]);
+  if (program.bytes) console.log(bytes(data), program.args[0]);
 });
 
 function cword(w) {
@@ -41,11 +42,9 @@ function cline(l) {
   //console.log(lines);
 
   for (j = 0; j < lines.length; j++) {
-    if (lines[j] != '') {
-      countl += 1;
-    }
+    countl += 1;
   }
-  return countl;
+  return countl - 1;
 }
 
 function bytes(b) {
