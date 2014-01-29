@@ -17,6 +17,7 @@
   "license": "null",
   "readmeFilename": "README.md",
   "dependencies": {
-    "commander": "~2.1.0"
+    "commander": "~2.1.0",
+    "async": "~0.2.10"
   }
 }
