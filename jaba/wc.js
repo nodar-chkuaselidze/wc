@@ -14,10 +14,12 @@ fs.readFile(program.args[0], 'utf8', function (err, data) {
   if (err) {
     console.log(err);
   }
-  if (program.lines) process.stdout.write(cline(data) +' '+ program.args[0] + '\n');
-  if (program.words) process.stdout.write(cword(data) +' '+ program.args[0] + '\n');
-  if (program.chars) process.stdout.write(data.length +' '+ program.args[0] + '\n');
-  if (program.bytes) process.stdout.write(bytes(data) +' '+ program.args[0] + '\n');
+  if (program.lines) process.stdout.write(cline(data) +' ');
+  if (program.words) process.stdout.write(cword(data) +' ');
+  if (program.chars) process.stdout.write(data.length +' ');
+  if (program.bytes) process.stdout.write(bytes(data) +' ');
+  console.log(program.args[0]);
+
 });
 
 function cword(w) {
