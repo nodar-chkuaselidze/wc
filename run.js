@@ -30,7 +30,7 @@ if(args.list) {
   process.exit();
 }
 
-if ((env = testEnvs[args.program]) == null) {
+if (args.program && (env = testEnvs[args.program]) == null) {
   console.log('\n  Program "' + args.program + '" not found');
   args.help();
 }
