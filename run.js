@@ -113,7 +113,7 @@ async.parallel(parallelJobs, function(err, _results) {
     }
 
     if (fail) {
-      console.log('  ' + clc.red(env + ' Failed to run on tests') + '\n');
+      console.log('  ' + clc.red(env + ' Failed tests') + '\n');
     } else {
       console.log('  ' + clc.green(env + ' work is brilliant'.toUpperCase()) + '\n');
     }
