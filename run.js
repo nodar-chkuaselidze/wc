@@ -2,7 +2,8 @@ var fs = require('fs'),
     exec = require('child_process').exec,
     args = require('commander'),
     async = require('async'),
-    package = require('./package.json');
+    package = require('./package.json'),
+    clc = require('cli-color');
 
 args
   .version(package.version)
@@ -84,10 +85,35 @@ for(var envName in testEnvs) {
   }, envName));
 }
 
-async.parallel(parallelJobs, function(err, results) {
+async.parallel(parallelJobs, function(err, _results) {
   if (err) {
     throw err;
   }
 
-  console.log(results);
+  results = {};
+  _results.forEach(function(result) { 
+    results[result.env] = result.results;
+  });
+  
+  var wc = results.wc;
+  
+  delete results.wc;
+
+  for (var env in results) {
+    var env_res = results[env],
+        fail    = false;
+
+    for(var i = 0; i < wc.length; i++) {
+      if (wc[i] != env_res[i]) {
+        console.log('< wc\n' + wc[i] + '----------\n' + clc.red(env_res[i] + '> Env: ' + env + '\n'));
+        fail = true;
+      }
+    }
+
+    if (fail) {
+      console.log(clc.red(env + ' Failed to run on tests'));
+    } else {
+      console.log(clc.green(env + ' work is brilliant'));
+    }
+  }
 });
