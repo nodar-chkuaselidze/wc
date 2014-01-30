@@ -28,11 +28,12 @@ var name = 'wc',
   testDir   = './tests',
   testFiles = fs.readdirSync(testDir);
 
-if(args.list) {
+if (args.list) {
   console.log('  Avaliable programs:');
-  for(var env in testEnvs) {
+  for (var env in testEnvs) {
     console.log('    ' + env);
   }
+
   process.exit();
 }
 
@@ -56,14 +57,14 @@ var results      = {},
     callbacks    = {};
     parallelJobs = [];
 
-for(var envName in testEnvs) {
+for (var envName in testEnvs) {
   results[envName]   = [];
   callbacks[envName] = [];
 
-  for(var i = 0; i < testFiles.length; i++) {
+  for (var i = 0; i < testFiles.length; i++) {
     callbacks[envName].push(async.apply(function(file, envName, callback) {
       var command = 'cd ' + envName + '; ' + testEnvs[envName] + ' ' + callArgs +' ../' + testDir + '/' + file + ';cd ..;';
-      exec(command, function(error, stdout, stderr) {
+      exec(command, function (error, stdout, stderr) {
         if (error) {
           callback({ error : error, command : command });
           return;
@@ -105,7 +106,7 @@ async.parallel(parallelJobs, function(err, _results) {
     var env_res = results[env],
         fail    = false;
 
-    for(var i = 0; i < wc.length; i++) {
+    for (var i = 0; i < wc.length; i++) {
       if (wc[i] != env_res[i]) {
         console.log('< wc\n' + wc[i] + '----------\n' + clc.red(env_res[i] + '> Env: ' + env + '\n'));
         fail = true;
