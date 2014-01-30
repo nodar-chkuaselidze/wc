@@ -39,6 +39,17 @@ if (args.program && (env = testEnvs[args.program]) == null) {
   args.help();
 }
 
+var callArgs = '',
+    callArgsList = [ 'l', 'm', 'w', 'c' ];
+
+callArgsList.forEach(function (argument) {
+  if (args[argument.toUpperCase()] == true) {
+    callArgs += argument;
+  }
+});
+
+callArgs = callArgs.length > 0 ? '-' + callArgs : '';
+
 var results     = {},
     callbacks   = {};
 
@@ -49,11 +60,10 @@ for(var envName in testEnvs) {
   callbacks[envName] = [];
 
   for(var i = 0; i < testFiles.length; i++) {
-    console.log('env: ' + envName, ', exec: ' + env + ' ' + testDir + '/' + testFiles[i]);
-    //callbacks[envName].push(async.apply(function(file, callback) {
-    //  exec(env + ' ' + testDir + '/' + file, function(error, stdout, stderr) {
-    //    callback(error, stdout);
-    //  });
-    //}, testFiles[i]));
+    callbacks[envName].push(async.apply(function(file, callback) {
+      exec(env + ' ' + callArgs +' ' + testDir + '/' + file, function(error, stdout, stderr) {
+        callback(error, stdout);
+      });
+    }, testFiles[i]));
   }
 }
