@@ -17,6 +17,7 @@ args
 
 var name = 'wc',
   testEnvs  = {
+    wc   : 'wc',
     jaba : 'node wc.js',
     //jani : './wc',
     //nodo : './wc'
@@ -38,21 +39,21 @@ if (args.program && (env = testEnvs[args.program]) == null) {
   args.help();
 }
 
-var wcResults   = {},
-    wcCallbacks = [],
-    results     = {},
+var results     = {},
     callbacks   = {};
 
-for(var i = 0; i < testFiles.length; i++) {
-  wcCallbacks[i] = async.apply(function(file, callback) {
-    exec('wc ' + testDir + '/' + file, function(error, stdout, stderr) {
-      callback(error, stdout);
-    });
-  }, testFiles[i]);
+for(var envName in testEnvs) {
+  var env = testEnvs[envName];
+
+  results[envName]   = [];
+  callbacks[envName] = [];
+
+  for(var i = 0; i < testFiles.length; i++) {
+    console.log('env: ' + envName, ', exec: ' + env + ' ' + testDir + '/' + testFiles[i]);
+    //callbacks[envName].push(async.apply(function(file, callback) {
+    //  exec(env + ' ' + testDir + '/' + file, function(error, stdout, stderr) {
+    //    callback(error, stdout);
+    //  });
+    //}, testFiles[i]));
+  }
 }
-
-async.parallel(wcCallbacks, function(err, results) {
-  wcResults = results;
-  console.log(wcResults);
-});
-
