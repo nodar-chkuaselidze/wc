@@ -1,0 +1,24 @@
+{
+  "name": "wc-tester",
+  "version": "0.1.0",
+  "description": "wc",
+  "main": "run.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "node run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/nodar-chkuaselidze/wc.git"
+  },
+  "author": "",
+  "license": "null",
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "commander": "~2.1.0",
+    "async": "~0.2.10",
+    "cli-color": "~0.2.3"
+  }
+}
