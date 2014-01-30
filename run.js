@@ -18,6 +18,7 @@ args
 
 var name = 'wc',
   testEnvs  = {
+    _wc   : 'wc',
     wc   : 'wc',
     jaba : 'node wc.js',
     //jani : './wc',
@@ -99,6 +100,7 @@ async.parallel(parallelJobs, function(err, _results) {
   
   delete results.wc;
 
+  console.log('');
   for (var env in results) {
     var env_res = results[env],
         fail    = false;
@@ -111,9 +113,9 @@ async.parallel(parallelJobs, function(err, _results) {
     }
 
     if (fail) {
-      console.log(clc.red(env + ' Failed to run on tests'));
+      console.log('  ' + clc.red(env + ' Failed to run on tests') + '\n');
     } else {
-      console.log(clc.green(env + ' work is brilliant'));
+      console.log('  ' + clc.green(env + ' work is brilliant'.toUpperCase()) + '\n');
     }
   }
 });
