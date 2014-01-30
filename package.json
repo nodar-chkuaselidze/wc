@@ -1,6 +1,6 @@
 {
-  "name": "wc",
-  "version": "0.0.0",
+  "name": "wc tester",
+  "version": "0.1.0",
   "description": "wc",
   "main": "run.js",
   "directories": {
