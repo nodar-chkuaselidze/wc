@@ -1,4 +1,5 @@
 var fs = require('fs'),
+    async = require('async')
     program = require('commander');
 
 program
@@ -10,55 +11,61 @@ program
   .option('-w, --words', 'Add words')
   .parse(process.argv);
 
-fs.readFile(program.args[0], 'utf8', function (err, data) {
-  if (err) {
-    console.log(err);
-  }
-  if (program.lines) process.stdout.write(cline(data) +' ');
-  if (program.words) process.stdout.write(cword(data) +' ');
-  if (program.chars) process.stdout.write(data.length +' ');
-  if (program.bytes) process.stdout.write(bytes(data) +' ');
-  console.log(program.args[0]);
+/////////////////////////////////////
 
+var files = program.args;
+var tasks = {};
+
+var all = !program.lines && !program.words && !program.bytes;
+
+files.forEach(function (file) {
+  tasks[file] = async.apply(fs.readFile, file, 'utf8');
+});
+
+async.parallel(tasks, function (err, results) {
+  for (var file in results) {
+    if (program.lines || all) process.stdout.write(cline(results[file]) + ' ');
+    if (program.words || all) process.stdout.write(cword(results[file]) + ' ');
+    if (program.chars || all) process.stdout.write(results[file].length + ' ');
+    if (program.bytes || all) process.stdout.write(bytes(results[file]) + ' ');
+    process.stdout.write(file + '\n');
+  }
 });
 
 function cword(w) {
   var count = 0,
-    words = w.split(/\s/g);
-
-  //console.log(words);
+      words = w.split(/\s/g);
 
   for (i = 0; i < words.length; i++) {
     if (words[i] != '') {
       count += 1;
     }
   }
+
   return count;
 }
 
 function cline(l) {
   var countl = 0,
-    lines = l.split('\n');
-
-  //console.log(lines);
+      lines = l.split('\n');
 
   for (j = 0; j < lines.length; j++) {
     countl += 1;
   }
+
   return countl - 1;
 }
 
 function bytes(b) {
   var countB = 0;
+
   for (var n = 0; n < b.length; n++) {
     var c = b.charCodeAt(n);
     if (c < 128) {
       countB++;
-    }
-    else if (c > 127 && c < 2048) {
+    } else if (c > 127 && c < 2048) {
       countB = countB + 2;
-    }
-    else {
+    } else {
       countB = countB + 3;
     }
   }
