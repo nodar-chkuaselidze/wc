@@ -50,20 +50,44 @@ callArgsList.forEach(function (argument) {
 
 callArgs = callArgs.length > 0 ? '-' + callArgs : '';
 
-var results     = {},
-    callbacks   = {};
+var results      = {},
+    callbacks    = {};
+    parallelJobs = [];
 
 for(var envName in testEnvs) {
-  var env = testEnvs[envName];
-
   results[envName]   = [];
   callbacks[envName] = [];
 
   for(var i = 0; i < testFiles.length; i++) {
-    callbacks[envName].push(async.apply(function(file, callback) {
-      exec(env + ' ' + callArgs +' ' + testDir + '/' + file, function(error, stdout, stderr) {
-        callback(error, stdout);
+    callbacks[envName].push(async.apply(function(file, envName, callback) {
+      var command = 'cd ' + envName + '; ' + testEnvs[envName] + ' ' + callArgs +' ../' + testDir + '/' + file + ';cd ..;';
+      exec(command, function(error, stdout, stderr) {
+        if (error) {
+          callback({ error : error, command : command });
+          return;
+        }
+
+        callback(null, stdout);
       });
-    }, testFiles[i]));
+    }, testFiles[i], envName));
   }
+
+  parallelJobs.push(async.apply(function(env, callback) {
+    async.parallel(callbacks[env], function(err, results) {
+      if (err) {
+        callback({ env : env, err : err });
+        return;
+      }
+
+      callback(null, { env : env, results : results });
+    });
+  }, envName));
 }
+
+async.parallel(parallelJobs, function(err, results) {
+  if (err) {
+    throw err;
+  }
+
+  console.log(results);
+});
