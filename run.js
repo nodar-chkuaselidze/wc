@@ -18,7 +18,6 @@ args
 
 var name = 'wc',
   testEnvs  = {
-    _wc   : 'wc',
     wc   : 'wc',
     jaba : 'node wc.js',
     //jani : './wc',
