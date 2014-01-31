@@ -24,13 +24,15 @@ files.forEach(function (file) {
 
 async.parallel(tasks, function (err, results) {
   for (var file in results) {
-    if (program.lines || all) process.stdout.write(cline(results[file]) + ' ');
-    if (program.words || all) process.stdout.write(cword(results[file]) + ' ');
-    if (program.chars || all) process.stdout.write(results[file].length + ' ');
-    if (program.bytes || all) process.stdout.write(bytes(results[file]) + ' ');
+    process.stdout.write(' ');
+    if (program.lines || all) process.stdout.write(' ' + cline(results[file]) + ' ');
+    if (program.words || all) process.stdout.write(' ' + cword(results[file]) + ' ');
+    if (program.chars) process.stdout.write(results[file].length + ' ');
+    if (program.bytes || all) process.stdout.write('' + bytes(results[file]) + ' ');
     process.stdout.write(file + '\n');
   }
 });
+/////////////////////////////////////////////////////
 
 function cword(w) {
   var count = 0,
