@@ -1,5 +1,6 @@
 var fs = require('fs'),
-    async = require('async')
+    sprintf = require('sprintf'),
+    async = require('async'),
     program = require('commander');
 
 program
@@ -24,19 +25,32 @@ files.forEach(function (file) {
 
 async.parallel(tasks, function (err, results) {
   for (var file in results) {
-    process.stdout.write(' ');
-    if (program.lines || all) process.stdout.write(' ' + cline(results[file]) + ' ');
-    if (program.words || all) process.stdout.write(' ' + cword(results[file]) + ' ');
-    if (program.chars) process.stdout.write(results[file].length + ' ');
-    if (program.bytes || all) process.stdout.write('' + bytes(results[file]) + ' ');
-    process.stdout.write(file + '\n');
+    //process.stdout.write(sprintf('%8d', cline(results[file])));
+
+    if (program.lines || all) {
+      process.stdout.write(sprintf('%4d', cline(results[file])));
+    }
+
+    if (program.words || all) {
+      process.stdout.write(sprintf('%5d', cword(results[file])));
+    }
+
+    // if (program.chars) {
+    //   process.stdout.write(results[file].length + ' ');
+    // }
+
+    if (program.bytes || all) {
+      process.stdout.write(sprintf('%5d', bytes(results[file])));
+    }
+
+    process.stdout.write(sprintf('%19s', file + '\n'));
   }
 });
 /////////////////////////////////////////////////////
 
-function cword(w) {
+function cword(word) {
   var count = 0,
-      words = w.split(/\s/g);
+      words = word.split(/\s/g);
 
   for (i = 0; i < words.length; i++) {
     if (words[i] != '') {
@@ -47,15 +61,8 @@ function cword(w) {
   return count;
 }
 
-function cline(l) {
-  var countl = 0,
-      lines = l.split('\n');
-
-  for (j = 0; j < lines.length; j++) {
-    countl += 1;
-  }
-
-  return countl - 1;
+function cline(line) {
+  return line.split('\n').length - 1;
 }
 
 function bytes(b) {
