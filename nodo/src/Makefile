@@ -8,14 +8,14 @@ COMPILE_FOLDER=../bin
 
 all: $(SOURCES) $(EXECUTABLE)
 	@echo "Compiled everything"
-		
+
 $(EXECUTABLE): $(OBJECTS) 
-		@echo "Compiling executable"
-		$(CC) $(LDFLAGS) $(addprefix $(COMPILE_FOLDER)/, $(OBJECTS)) -o $(COMPILE_FOLDER)/$@
+	@echo "Compiling executable"
+	$(CC) $(LDFLAGS) $(addprefix $(COMPILE_FOLDER)/, $(OBJECTS)) -o $(COMPILE_FOLDER)/$@
 
 .c.o:
-		@echo "Compiling Source files $< to $@"
-		$(CC) $(CFLAGS) $< -o $(COMPILE_FOLDER)/$@
+	@echo "Compiling Source files $< to $@"
+	$(CC) $(CFLAGS) $< -o $(COMPILE_FOLDER)/$@
 
 clean:
 	rm -rf $(COMPILE_FOLDER)/*.{o,a}
