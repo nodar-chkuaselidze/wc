@@ -21,7 +21,7 @@ var name = 'wc',
     wc   : 'wc',
     jaba : 'node wc.js',
     //jani : './wc',
-    //nodo : './wc'
+    nodo : './bin/wc'
   },
   env = null
   testDir   = './tests',
