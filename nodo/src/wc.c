@@ -3,13 +3,16 @@
 #include <unistd.h>
 #include <stdbool.h>
 
+#define usint unsigned short int
+#define uint unsigned int
+
 typedef struct files {
   char **list;
   int count;
 } FILES;
 
 int main (int argc, char **argv) {
-  unsigned short int flags = 0;
+  usint flags = 0;
   char c;
 
   FILES files;
