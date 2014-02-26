@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdbool.h>
+#include "files.h"
 
 int main (int argc, char **argv) {
   unsigned short int flags = 0;
@@ -32,9 +33,15 @@ int main (int argc, char **argv) {
         flags |= 0x08;
         break;
 
+      case '?':
+        printf("usage: wc -wclm files..");
+
       default:
-        abort();
+        return 1;
     }
   }
+
+  
+
   return 0;
 }
