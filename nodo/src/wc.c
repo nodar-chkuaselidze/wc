@@ -2,11 +2,17 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdbool.h>
-#include "files.h"
+
+typedef struct files {
+  char **list;
+  int count;
+} FILES;
 
 int main (int argc, char **argv) {
   unsigned short int flags = 0;
   char c;
+
+  FILES files;
 
   while ((c = getopt(argc, argv, "clmw")) != -1)
   {
@@ -41,7 +47,8 @@ int main (int argc, char **argv) {
     }
   }
 
-  
+  files.list  = &argv[optind];
+  files.count = argc - optind;
 
   return 0;
 }
