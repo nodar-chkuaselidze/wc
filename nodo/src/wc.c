@@ -97,31 +97,32 @@ void statErrorExit(int _errno) {
 
   switch (_errno) {
     case EACCES:
-      strcpy(errstr, "Permission Problem");
+      errstr = strdup("Permission Problem");
       break;
     case EBADF:
-      strcpy(errstr, "File Descriptor Problem");
+      errstr = strdup("File Descriptor Problem");
       break;
     case EFAULT:
-      strcpy(errstr, "Bad Address");
+      errstr = strdup("Bad Address");
       break;
     case ELOOP:
-      strcpy(errstr, "Too many simlinks");
+      errstr = strdup("Too many simlinks");
       break;
     case ENAMETOOLONG:
-      strcpy(errstr, "Path is too long");
+      errstr = strdup("Path is too long");
       break;
     case ENOENT:
-      strcpy(errstr, "Path not found");
+      errstr = strdup("Path not found");
       break;
     case ENOTDIR:
-      strcpy(errstr, "A component of the path prefix of path is not a directory.");
+      errstr = strdup("A component of the path prefix of path is not a directory.");
       break;
     case ENOMEM:
-      strcpy(errstr, "Out of memory");
+      errstr = strdup("Out of memory");
       break;
   }
 
   fprintf(stderr, "%s", errstr);
+  free(errstr);
   exit(_errno);
 }
