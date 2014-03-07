@@ -2,6 +2,7 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <stdbool.h>
@@ -21,6 +22,7 @@ typedef struct files {
 
 void countThings(char *, wc_flags);
 off_t getFileBytes(char *);
+void statErrorExit(int);
 
 int main (int argc, char **argv) {
   wc_flags flags = 0;
@@ -85,6 +87,41 @@ off_t getFileBytes(char *fileName) {
     return fileStats.st_size;
   }
 
-  
+  statErrorExit(errno);
+
   return -1;
+}
+
+void statErrorExit(int _errno) {
+  char *errstr = NULL;
+
+  switch (_errno) {
+    case EACCES:
+      strcpy(errstr, "Permission Problem");
+      break;
+    case EBADF:
+      strcpy(errstr, "File Descriptor Problem");
+      break;
+    case EFAULT:
+      strcpy(errstr, "Bad Address");
+      break;
+    case ELOOP:
+      strcpy(errstr, "Too many simlinks");
+      break;
+    case ENAMETOOLONG:
+      strcpy(errstr, "Path is too long");
+      break;
+    case ENOENT:
+      strcpy(errstr, "Path not found");
+      break;
+    case ENOTDIR:
+      strcpy(errstr, "A component of the path prefix of path is not a directory.");
+      break;
+    case ENOMEM:
+      strcpy(errstr, "Out of memory");
+      break;
+  }
+
+  fprintf(stderr, "%s", errstr);
+  exit(_errno);
 }
