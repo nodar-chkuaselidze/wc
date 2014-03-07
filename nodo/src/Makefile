@@ -9,7 +9,7 @@ COMPILE_FOLDER=../bin
 all: $(SOURCES) $(EXECUTABLE)
 	@echo "Compiled everything"
 
-debug: CFLAGS += -g
+debug: CFLAGS += -ggdb
 debug: all
 	@echo "Debugging included"
 
