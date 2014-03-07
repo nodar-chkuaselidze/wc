@@ -9,6 +9,10 @@ COMPILE_FOLDER=../bin
 all: $(SOURCES) $(EXECUTABLE)
 	@echo "Compiled everything"
 
+debug: CFLAGS += -g
+debug: all
+	@echo "Debugging included"
+
 $(EXECUTABLE): $(OBJECTS) 
 	@echo "Compiling executable"
 	$(CC) $(LDFLAGS) $(addprefix $(COMPILE_FOLDER)/, $(OBJECTS)) -o $(COMPILE_FOLDER)/$@
