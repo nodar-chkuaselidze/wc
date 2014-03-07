@@ -1,5 +1,5 @@
 SRC=src
-COMMANDS=all clean clear
+COMMANDS=all clean clear debug
 
 $(COMMANDS):
-	cd $(SRC) && $(MAKE)
+	cd $(SRC) && $(MAKE) $@
