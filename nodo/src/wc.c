@@ -19,6 +19,9 @@ typedef struct files {
   wc_fcount count;
 } FILES;
 
+void countThings(char *, wc_flags);
+off_t getFileBytes(char *);
+
 int main (int argc, char **argv) {
   wc_flags flags = 0;
   char c;
@@ -62,16 +65,19 @@ int main (int argc, char **argv) {
   files.count = argc - optind;
 
   for (wc_fcount i = 0; i < files.count; i++) {
-    countThings(files.list[i]);
+    countThings(files.list[i], flags);
   }
 
   return 0;
 }
 
 void countThings(char *fileName, wc_flags flags) {
+  printf("%s\n", fileName);
+  printf("%lld\n", getFileBytes(fileName));
 }
 
-long getFileBytes(char *fileName) {
+
+off_t getFileBytes(char *fileName) {
   struct stat fileStats;
   int error = stat(fileName, &fileStats);
 
@@ -79,6 +85,6 @@ long getFileBytes(char *fileName) {
     return fileStats.st_size;
   }
 
-  printf("%d", errno);
+  
   return -1;
 }
