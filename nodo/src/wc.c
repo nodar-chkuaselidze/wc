@@ -1,6 +1,9 @@
 #include <stdio.h>
+#include <errno.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 #include <stdbool.h>
 
 typedef struct files {
@@ -51,4 +54,16 @@ int main (int argc, char **argv) {
   files.count = argc - optind;
 
   return 0;
+}
+
+long getFileBytes(char *fileName) {
+  struct stat fileStats;
+  int error = stat(fileName, &fileStats);
+
+  if (error == false) {
+    return fileStats.st_size;
+  }
+
+  printf("%d", errno);
+  return -1;
 }
